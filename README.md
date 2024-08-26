@@ -1,4 +1,4 @@
-<h2>Fitness Logger<\h2>
+<h2>Fitness Logger
 <br>
 A web application to track your fitness goal, exercises ,diet and macros.
  
