@@ -61,7 +61,6 @@ body{
     border-radius: 50%; 
     margin-right: 20px;
     object-fit: cover; 
-    /* animation: fadeDown 2s forwards; */
 }
 
 #profile-content {
@@ -86,7 +85,6 @@ body{
     font-size: 12px;
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
-    /* animation: fadeDown 2s forwards; */
 }
 
 #b1 {
@@ -204,6 +202,15 @@ body{
     text-align: center;
     animation: fadeDown 2s forwards;
 }
+#add_workout a{
+    position: absolute;
+    left:160px;
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+}
 
 #goals {
     background-color: rgba(255, 255, 255, 0.1); 
@@ -247,6 +254,16 @@ body{
     z-index: 1;
     text-align: center;
     animation: fadeDown 2s forwards;
+}
+
+#add_goals a{
+    position: absolute;
+    left:160px;
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
 }
 
 #quote2{
@@ -310,6 +327,16 @@ body{
     z-index: 1;
     text-align: center;
     animation: fadeDown 2s forwards;
+}
+
+#add_food a{
+    position: absolute;
+    left:160px;
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
 }
 
 #quote3{
