@@ -21,7 +21,7 @@ body{
     width: 100vw;
     padding: 0 20px;
     opacity: 0;
-    animation: fadeDown 2s forwards;
+    animation: fadeDown 4s forwards;
     font-family:'Poppins', sans-serif;
     z-index:100;
     text-align: center;
@@ -61,7 +61,7 @@ body{
     border-radius: 50%; 
     margin-right: 20px;
     object-fit: cover; 
-    animation: fadeDown 2s forwards;
+    /* animation: fadeDown 2s forwards; */
 }
 
 #profile-content {
@@ -70,6 +70,8 @@ body{
 }
 
 #username {
+    position: absolute;
+    top:15px;
     font-size: 24px;
     font-weight: 600;
     animation: fadeDown 2s forwards;
@@ -84,9 +86,60 @@ body{
     font-size: 12px;
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
-    animation: fadeDown 2s forwards;
+    /* animation: fadeDown 2s forwards; */
 }
 
+#b1 {
+    width: 150px;
+    position: absolute;
+    left:500px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #A0153E;
+    color: white;
+    font-size: 16px;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    animation: fadeDown 2s forwards;
+
+    text-align: center; 
+}
+#b2 {
+    width: 150px;
+    position: absolute;
+    left:700px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #A0153E;
+    color: white;
+    font-size: 16px;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    animation: fadeDown 2s forwards;
+
+    text-align: center; 
+}
+#b3 {
+    width: 150px;
+    position: absolute;
+    left:900px;
+    font-family: 'Poppins', sans-serif;
+    background-color: #A0153E;
+    color: white;
+    font-size: 16px;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    animation: fadeDown 2s forwards;
+
+    text-align: center; 
+}
 
 
 #recent {
@@ -103,11 +156,11 @@ body{
     border: 1px solid rgba(255, 255, 255, 0.2);
     position: absolute;
     top: 250px;
-    left: 35%;
+    left: 30px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start; 
+    align-items: flex-start;
     z-index: 1;
     animation: fadeDown 2s forwards;
 }
@@ -125,15 +178,16 @@ body{
     font-size: 48px;
     margin: 0;
 
-    width: 30%; 
+    width: 35%; 
     position: absolute;
-    top: 350px;
-    left:30px;
+    top: 300px;
+    left:63vw;
     transform: translate(-50%, -50%);
     z-index: 1;
     text-align: center;
     animation: fadeDown 2s forwards;
 }
+
 
 #add_workout{
     color: white;
@@ -143,8 +197,8 @@ body{
 
     width: 30%; 
     position: absolute;
-    top: 550px;
-    left:30px;
+    top: 580px;
+    left:900px;
     transform: translate(-50%, -50%);
     z-index: 1;
     text-align: center;
@@ -164,7 +218,7 @@ body{
     text-align: left; 
     border: 1px solid rgba(255, 255, 255, 0.2);
     position: absolute;
-    top: 775px;
+    top: 250px;
     left: 30px;
     display: flex;
     flex-direction: column;
@@ -187,7 +241,7 @@ body{
 
     width: 30%; 
     position: absolute;
-    top: 1100px;
+    top: 580px;
     left:900px;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -205,7 +259,7 @@ body{
 
     width: 35%; 
     position: absolute;
-    top: 825px;
+    top: 300px;
     left:63vw;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -214,7 +268,7 @@ body{
 }
 
 
-#metrics {
+#nutrition {
     background-color: rgba(255, 255, 255, 0.1); 
     backdrop-filter: blur(10px); 
     color: white;
@@ -227,22 +281,22 @@ body{
     text-align: left; 
     border: 1px solid rgba(255, 255, 255, 0.2);
     position: absolute;
-    top: 1300px;
-    left: 35%;
+    top: 250px;
+    left: 30px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: flex-start; 
+    align-items: flex-start;
     z-index: 1;
     animation: fadeDown 2s forwards;
 }
 
-#metrics p {
+#nutrition p {
     margin-top: 0;
     margin-left: 0; 
 }
 
-#add_metrics{
+#add_food{
     color: white;
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
@@ -250,8 +304,8 @@ body{
 
     width: 30%; 
     position: absolute;
-    top: 1600px;
-    left:30px;
+    top: 580px;
+    left:900px;
     transform: translate(-50%, -50%);
     z-index: 1;
     text-align: center;
@@ -266,10 +320,10 @@ body{
     font-size: 48px;
     margin: 0;
 
-    width: 30%; 
+    width: 35%; 
     position: absolute;
-    top: 1400px;
-    left:30px;
+    top: 300px;
+    left:63vw;
     transform: translate(-50%, -50%);
     z-index: 1;
     text-align: center;

@@ -1,19 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>FitLog</title>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="main.css">
-    </head>
-    <body>
-        <div id="root"></div>
-        
-        <script type="text/babel" src="main.js"></script>
-        <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
-        <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
-        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitLog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
 
-    </body>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+    <script type="text/babel">
+        const { useState } = React;
+        const App = () => {
+            const [currentView, setCurrentView] = useState('workout');
+
+            const handleButtonClick = (view) => {
+                setCurrentView(view);
+            };
+
+            return (
+                <div>
+                    <div id="topbar">
+                        <h1>Fitness Logger</h1>
+                    </div>
+
+                    <div id="profile">
+                        <img src="img1.jpg" alt="Profile Photo" id="profile-photo" />
+                        <div id="profile-content">
+                            <p id="username">John Doe</p>
+                            <a href="#">Sign out</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button id="b1" onClick={() => handleButtonClick('workout')}>Workout</button>
+                        <button id="b2" onClick={() => handleButtonClick('goals')}>Goals</button>
+                        <button id="b3" onClick={() => handleButtonClick('nutrition')}>Nutrition</button>
+                    </div>
+
+                    {currentView === 'workout' && (
+                        <div>
+                            <span id="quote1">
+                                <p>"Nothing will work unless you do."</p>
+                            </span>
+
+                            <div id="recent">
+                                <p>Recent Workout..</p>
+                            </div>
+
+                            <span id="add_workout">
+                                <a href="#">Log Workout</a>
+                            </span>
+                        </div>
+                    )}
+
+                    {currentView === 'goals' && (
+                        <div>
+                            <span id="quote2">
+                                <p>"All progress takes place outside the comfort zone."</p>
+                            </span>
+
+                            <div id="goals">
+                                <p>Goals</p>
+                            </div>
+
+                            <span id="add_goals">
+                                <a href="#">Log Goals</a>
+                            </span>
+                        </div>
+                    )}
+
+                    {currentView === 'nutrition' && (
+                        <div>
+                            <span id="quote3">
+                                <p>"Excuses don't burn calories."</p>
+                            </span>
+
+                            <div id="nutrition">
+                                <p>Nutrition</p>
+                            </div>
+
+                            <span id="add_food">
+                                <a href="#">Log Food</a>
+                            </span>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
 </html>
