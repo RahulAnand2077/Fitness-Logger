@@ -87,6 +87,10 @@ body {
     animation: fadeDown 2s forwards;
 }
 
+#login a{
+    color: white;
+}
+
 input {
     font-family:'Poppins', sans-serif;
     width: 80%;
