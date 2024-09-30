@@ -1,3 +1,4 @@
+import { MONGO_URI } from "/db.js"
 require('dotenv').config();
 
 console.log(process.env.MONGO_URI); // Should now log the correct value
