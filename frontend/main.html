@@ -1,100 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitLog</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="main.css">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>FitLog</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="main.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    </head>
+    <body>
 
-</head>
-<body>
-    <div id="root"></div>
-    
-    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <script type="text/babel">
-        const { useState } = React;
-        const App = () => {
-            const [currentView, setCurrentView] = useState('workout');
+        <div id="topbar">
+            <h1 id="title_company">Fitness Logger</h1>
+            <h2 id="about-us"><a href="about_us.html">About us</a></h2>
+        </div>
 
-            const handleButtonClick = (view) => {
-                setCurrentView(view);
-            };
+        <div id="profile">
+            <img src="img1.jpg" alt="Profile Photo" id="profile-photo" />
+            <div id="profile-content">
+                <p id="username"><a href="profile.html">John Doe</a></p>
+                <a href="login.html" id="signout">Sign out</a>
+            </div>
+        </div>       
 
-            return (
-                <div>
-                    <div id="topbar">
-                        <h1>Fitness Logger</h1>
-                    </div>
+        <section id="workout">
+            <span id="quote1">
+                <p>"Nothing will work unless you do."</p>
+            </span>
+            <div id="recent">
+                <p>Recent Workout..</p>
+            </div>
+            <span id="add_workout">
+                <button id="b1" onclick="">Log Workout</button>
+            </span>
+        </section>
 
-                    <div id="profile">
-                        <img src="img1.jpg" alt="Profile Photo" id="profile-photo" />
-                        <div id="profile-content">
-                            <p id="username">John Doe</p>
-                            <a href="#">Sign out</a>
-                        </div>
-                    </div>
+        <section id="goals-section">
+            <span id="quote2">
+                <p>"All progress takes place outside the comfort zone."</p>
+            </span>
+            <div id="goals">
+                <p>Goals</p>
+            </div>
+            <span id="add_goals">
+                <button id="b2" onclick="">Log Goals</button>
+            </span>
+        </section>
 
-                    <div>
-                        <button id="b1" onClick={() => handleButtonClick('workout')}>Workout</button>
-                        <button id="b2" onClick={() => handleButtonClick('goals')}>Goals</button>
-                        <button id="b3" onClick={() => handleButtonClick('nutrition')}>Nutrition</button>
-                    </div>
+        <section id="nutrition-section">
+            <span id="quote3">
+                <p>"Excuses don't burn calories."</p>
+            </span>
+            <div id="nutrition">
+                <p>Nutrition</p>
+            </div>
+            <span id="add_food">
+                <button id="b3" onclick="">Log Calories</button>
+            </span>
+        </section>
 
-                    {currentView === 'workout' && (
-                        <div>
-                            <span id="quote1">
-                                <p>"Nothing will work unless you do."</p>
-                            </span>
-
-                            <div id="recent">
-                                <p>Recent Workout..</p>
-                            </div>
-
-                            <span id="add_workout">
-                                <a href="#"><u>Log Workout</u></a>
-                            </span>
-                        </div>
-                    )}
-
-                    {currentView === 'goals' && (
-                        <div>
-                            <span id="quote2">
-                                <p>"All progress takes place outside the comfort zone."</p>
-                            </span>
-
-                            <div id="goals">
-                                <p>Goals</p>
-                            </div>
-
-                            <span id="add_goals">
-                                <a href="#"><u>Log Goals</u></a>
-                            </span>
-                        </div>
-                    )}
-
-                    {currentView === 'nutrition' && (
-                        <div>
-                            <span id="quote3">
-                                <p>"Excuses don't burn calories."</p>
-                            </span>
-
-                            <div id="nutrition">
-                                <p>Nutrition</p>
-                            </div>
-
-                            <span id="add_food">
-                                <a href="#"><u>Log Food</u></a>
-                            </span>
-                        </div>
-                    )}
+        <div id="footer">
+            <div id="foot-content">        
+                <div class="social-icons">
+                    <a href="https://www.linkedin.com" target="https://www.linkedin.com/in/rahul-anand-bb3995317/"><i class="fab fa-linkedin"></i> LinkedIn</a> |
+                    <a href="https://www.instagram.com" target="https://www.instagram.com/i_rahul.anand/"><i class="fab fa-instagram"></i> Instagram</a> 
                 </div>
-            );
-        };
+                <p><a>&copy; 2024 FitLog. All rights reserved.</a></p>
+            </div>
+        </div>
 
-        ReactDOM.render(<App />, document.getElementById('root'));
-    </script>
-</body>
+    </body>
 </html>
