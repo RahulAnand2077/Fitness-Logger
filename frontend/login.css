@@ -29,7 +29,7 @@ body {
 }
 
 #overlay {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
@@ -42,7 +42,7 @@ body {
 #text-overlay {
     position: absolute;
     top: 8%;
-    left: 34%;
+    left: 35%;
     transform: translate(-50%, -50%);
     color: white;
     font-size: 30px;
@@ -89,6 +89,10 @@ body {
 
 #login a{
     color: white;
+    text-decoration: none;
+}
+#login a:hover{
+    text-decoration: underline;
 }
 
 input {
