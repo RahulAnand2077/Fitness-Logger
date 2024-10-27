@@ -15,7 +15,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/about_us" element={<AboutUs />} />
         <Route path="/main" element={<Main />} />
-        <Route path="*" element={<Main />} /> {/* Default route */}
+        <Route path="*" element={<Login />} /> {/* Default route */}
       </Routes>
     </Router>
   );
