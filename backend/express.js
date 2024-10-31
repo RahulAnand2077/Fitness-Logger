@@ -28,7 +28,6 @@ app.post("/signup", userValidation, userExists, async (req, res) => {
   }
 });
 
-// Basic login route
 app.post("/login", userValidation, async (req, res) => {
   const { username, email, password } = req.body;
   try {
@@ -48,12 +47,11 @@ app.post("/login", userValidation, async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
   } catch (err) {
-    console.error("Login error:", err); // Log error to the console
+    console.error("Login error:", err);
     res.status(500).json({ error: "An error occurred during login." });
   }
 });
 
-// Basic update route
 app.put("/update", async (req, res) => {
   const { username, loc, age, height, weight} = req.body;
   try {

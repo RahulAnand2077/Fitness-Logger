@@ -392,14 +392,15 @@
     font-size: 24px;
     border-radius: 10px;
     padding: 40px;
-    height: 400px;
-    width: 50%;
+    width: 947px;
     text-align: left; 
     border: 1px solid rgba(255, 255, 255, 0.2);
     position: absolute;
-    top: 250px;
-    left: 30px;
-
-
-
+    top: 150px;
+    left: 0px;
+    animation: fadeDown 2s forwards;
+}
+#workout_sub_b{
+    width : 20%;
+    margin-left: 185px;
 }

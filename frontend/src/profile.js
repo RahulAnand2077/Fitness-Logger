@@ -13,7 +13,6 @@ const UserProfile = () => {
   });
 
   useEffect(() => {
-    // Fetch data from local storage and update state
     const storedUsername = localStorage.getItem('username');
     const storedEmail = localStorage.getItem('email');
     const storedLoc = localStorage.getItem('loc');
@@ -65,8 +64,6 @@ const UserProfile = () => {
         alert(data.message || 'Profile updated successfully!');
         setIsEditing(false);
         localStorage.setItem('username', profile.name);
-        // console.log('Updated username in localStorage:', profile.name);
-
         localStorage.setItem('email', profile.email);
         localStorage.setItem('loc', profile.loc);
         localStorage.setItem('age', profile.age);
@@ -126,14 +123,14 @@ const UserProfile = () => {
                     id="email"
                     value={profile.email}
                     onChange={handleInputChange}
-                    disabled // Prevent editing email
+                    disabled 
                   />
                 </div>
                 <div className="input-group">
                   <label htmlFor="loc">Location:</label>
                   <input
                     type="text"
-                    id="loc" // Use loc instead of location
+                    id="loc" 
                     value={profile.loc}
                     onChange={handleInputChange}
                   />

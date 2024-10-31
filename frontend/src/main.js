@@ -4,13 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import './login';
 import './about_us';
+import axios from 'axios';
 
 
 const Main = () => {
     const [showWorkoutForm, setShowWorkoutForm] = useState(false);
     const [workouts, setWorkouts] = useState([]);
-    const [exercise, setExercise] = useState('Planck');
-    const [reps, setReps] = useState('');
+    const [log, setLog] = useState('');
 
     const [username, setUsername] = useState('');
     useEffect(() => {
@@ -22,6 +22,10 @@ const Main = () => {
           window.location.href = '/login';
       }
     }, []);
+
+    useEffect(() => {
+      console.log("Fetched workouts:", workouts);
+  }, [workouts]);
 
     const today = new Date().toLocaleDateString();
     
@@ -41,21 +45,25 @@ const Main = () => {
     }
   
     function submitWorkout() {
-      if (reps < 1) {
-        alert('Number of reps must be 1 or greater.');
-        return;
-      }
-  
-      const newWorkout = {
-        exercise,
-        reps,
+      const workoutData = {
+          email: localStorage.getItem("email"),
+          date: today,
+          log: log, 
       };
   
-      setWorkouts([...workouts, newWorkout]);
-      setExercise('Planck');
-      setReps('');
-      setShowWorkoutForm(false);
-    }
+      axios.post("http://localhost:5010/logs", workoutData)
+          .then(response => {
+              alert(response.data.message);
+              setWorkouts([...workouts, workoutData]);
+              setLog('');
+              setShowWorkoutForm(false);
+          })
+          .catch(error => {
+              console.error("Error logging workout:", error?.response?.data || error.message);
+              alert("Error logging workout");
+          });
+  }
+  
   
     function cancelWorkout() {
       setShowWorkoutForm(false);
@@ -92,14 +100,16 @@ const Main = () => {
           </span>
   
           <div id="recent">
-            <p>{today}</p> 
             <div id="workoutList">
               {workouts.length === 0 ? (
                 <p id="recent_workout">No recent workouts logged.</p>
               ) : (
-                workouts.map((workout, index) => (
+                workouts?.map((workout, index) => (
                   <div key={index}>
-                    {workout.exercise} - {workout.reps} reps
+                      <p><strong>{workout.date}</strong></p>
+                      {workout.logs?.map((log, logIndex) => (
+                          <div key={logIndex}>{log}</div>
+                      ))}
                   </div>
                 ))
               )}
@@ -107,29 +117,15 @@ const Main = () => {
   
             {showWorkoutForm && (
               <div id="workoutForm">
-                <label htmlFor="exercise">Exercise:</label>
-                <select
-                  id="exercise"
-                  value={exercise}
-                  onChange={(e) => setExercise(e.target.value)}
-                >
-                  <option value="Planck">Planck</option>
-                  <option value="Squats">Squats</option>
-                  <option value="Push-ups">Push-ups</option>
-                  <option value="Running">Running</option>
-                  <option value="Cycling">Cycling</option>
-                </select>
-                <label htmlFor="reps">Reps:</label>
-                <input
-                  type="number"
-                  id="reps"
-                  min="1"
-                  value={reps}
-                  onChange={(e) => setReps(e.target.value)}
-                  required
-                />
-                <button onClick={submitWorkout}>Submit</button>
-                <button onClick={cancelWorkout}>Cancel</button>
+                <textarea
+                  placeholder='Log Workout'
+                  value={log}
+                  onChange={(e) => setLog(e.target.value)}
+                  rows="12"
+                  style={{ width: '100%' }}
+                ></textarea>
+                <button id="workout_sub_b" onClick={submitWorkout}>Submit</button>
+                <button id="workout_sub_b" onClick={cancelWorkout}>Cancel</button>
               </div>
             )}
           </div>
