@@ -38,6 +38,11 @@ app.post("/login", userValidation, async (req, res) => {
       return res.status(200).json({
         message: "Welcome",
         username: user.username,
+        email: user.email,
+        loc: user.loc,
+        age: user.age,
+        height: user.height,
+        weight: user.weight,
       });
     } else {
       return res.status(404).json({ message: "User not found" });
@@ -50,14 +55,13 @@ app.post("/login", userValidation, async (req, res) => {
 
 // Basic update route
 app.put("/update", async (req, res) => {
-  const { username, loc, age, height, weight,img} = req.body;
+  const { username, loc, age, height, weight} = req.body;
   try {
-    const updatedUser = await User.updateOne({ username , loc ,age,height,weight,img});
+    const updatedUser = await User.updateOne({ username},{ loc, age, height, weight});
 
     if (updatedUser.modifiedCount > 0) {
       res.status(200).json({
         message: "User updated successfully",
-        email: email,
       });
     } else {
       res.status(404).json({ message: "User not found or no changes made" });

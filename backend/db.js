@@ -26,7 +26,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
         trim: true,
-        lowercase: true,
         minLength: 1,
     },
     loc: {
@@ -43,10 +42,6 @@ const userSchema = new mongoose.Schema({
     weight: {
         type: Number,
     },
-    img: {
-        type: String,
-        trim: true,
-    }
 });
 
 

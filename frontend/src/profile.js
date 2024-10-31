@@ -10,18 +10,24 @@ const UserProfile = () => {
     age: null,
     height: null,
     weight: null,
-    img: '',
   });
 
   useEffect(() => {
+    // Fetch data from local storage and update state
+    const storedUsername = localStorage.getItem('username');
+    const storedEmail = localStorage.getItem('email');
+    const storedLoc = localStorage.getItem('loc');
+    const storedAge = localStorage.getItem('age');
+    const storedHeight = localStorage.getItem('height');
+    const storedWeight = localStorage.getItem('weight');
+
     setProfile({
-      name: localStorage.getItem('username'),
-      email: localStorage.getItem('email'),
-      loc: localStorage.getItem('loc'),
-      age: localStorage.getItem('age'),
-      height: localStorage.getItem('height'),
-      weight: localStorage.getItem('weight'),
-      img: localStorage.getItem('img'),
+      name: storedUsername || '',
+      email: storedEmail || '',
+      loc: storedLoc || '',
+      age: storedAge || '',
+      height: storedHeight || '',
+      weight: storedWeight || '',
     });
   }, []);
 
@@ -36,20 +42,6 @@ const UserProfile = () => {
       [id]: value,
     }));
   };
-
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   const reader = new FileReader();
-  //   reader.onload = function(e) {
-  //     setProfile((prevProfile) => ({
-  //       ...prevProfile,
-  //       img: e.target.result, // Update img instead of profilePicture
-  //     }));
-  //   }
-  //   if (file) {
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
 
   const handleSubmit = async () => {
     try {
@@ -72,10 +64,24 @@ const UserProfile = () => {
       if (response.ok) {
         alert(data.message || 'Profile updated successfully!');
         setIsEditing(false);
+        localStorage.setItem('username', profile.name);
+        // console.log('Updated username in localStorage:', profile.name);
+
+        localStorage.setItem('email', profile.email);
         localStorage.setItem('loc', profile.loc);
         localStorage.setItem('age', profile.age);
         localStorage.setItem('height', profile.height);
         localStorage.setItem('weight', profile.weight);
+
+        console.log('Updated localStorage:', {
+          username: localStorage.getItem('username'),
+          email: localStorage.getItem('email'),
+          loc: localStorage.getItem('loc'),
+          age: localStorage.getItem('age'),
+          height: localStorage.getItem('height'),
+          weight: localStorage.getItem('weight'),
+        });
+
       } else {
         alert(data.message || 'Failed to update profile. Please try again.');
       }
@@ -103,15 +109,6 @@ const UserProfile = () => {
           <div id="user-details">
             {isEditing ? (
               <div id="edit-mode">
-                {/* <div className="input-group">
-                  <label htmlFor="profile-picture">Profile Picture:</label>
-                  <input
-                    type="file"
-                    id="profile-picture"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                  />
-                </div> */}
                 <div className="input-group">
                   <label htmlFor="name">Name:</label>
                   <input
@@ -119,6 +116,17 @@ const UserProfile = () => {
                     id="name"
                     value={profile.name}
                     onChange={handleInputChange}
+                    disabled
+                  />
+                </div>
+                <div className="input-group">
+                  <label htmlFor="email">Email:</label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={profile.email}
+                    onChange={handleInputChange}
+                    disabled // Prevent editing email
                   />
                 </div>
                 <div className="input-group">
