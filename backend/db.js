@@ -19,7 +19,6 @@ const userSchema = new mongoose.Schema({
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        // required: true,
         ref: "User",
     },
     username: {
@@ -44,20 +43,12 @@ const userSchema = new mongoose.Schema({
     weight: {
         type: Number,
     },
+    img: {
+        type: String,
+        trim: true,
+    }
 });
 
-// const profileSchema = new mongoose.Schema({
-    
-//     email: {
-//         type: String,
-//         required: true,
-//         unique: true,
-//         lowercase: true,
-//     },
-    
-// });
 
 const User = mongoose.model("User", userSchema);
-// const Profile = mongoose.model("Profile", profileSchema);
-
 module.exports = { User };

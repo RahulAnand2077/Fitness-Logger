@@ -101,7 +101,8 @@ input {
 }
 
 button {
-    font-family:'Poppins', sans-serif;
+    font-family:'Poppins', sans-serif;  
+    margin-top: 10px;
     width: 85%;
     padding: 10px;
     background-color: #ff3b62;

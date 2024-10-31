@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './main.css'; // Import the CSS
+import React, { useState,useEffect } from 'react';
+import './main.css'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import './login';
@@ -11,9 +11,31 @@ const Main = () => {
     const [workouts, setWorkouts] = useState([]);
     const [exercise, setExercise] = useState('Planck');
     const [reps, setReps] = useState('');
-  
+
+    const [username, setUsername] = useState('');
+    useEffect(() => {
+      const storedUsername = localStorage.getItem("username");
+      if (storedUsername) {
+        setUsername(storedUsername);
+      }
+      else {
+          window.location.href = '/login';
+      }
+    }, []);
+
     const today = new Date().toLocaleDateString();
-  
+    
+    function handleSignOut() {
+      localStorage.removeItem('username');
+      localStorage.removeItem('email');
+      localStorage.removeItem('loc');
+      localStorage.removeItem('age');
+      localStorage.removeItem('height');
+      localStorage.removeItem('weight');
+      setUsername('');
+      window.location.href = '/login'; 
+    }
+
     function addWorkout() {
       setShowWorkoutForm(true);
     }
@@ -50,15 +72,15 @@ const Main = () => {
   
         <div id="profile_main">
           <img
-            src={`${process.env.PUBLIC_URL}/img1.jpg`}
+            src={`${process.env.PUBLIC_URL}/img2.jpg`}
             alt="Profile Photo"
             id="profile_photo_main"
           />
           <div id="profile_content_main">
             <p id="username_main">
-              <a href="/profile">John Doe</a>
+              <a href="/profile">{username || 'Guest'}</a>
             </p>
-            <a href="/login" id="signout_main">
+            <a href="#" id="signout_main" onClick={handleSignOut}>
               Sign out
             </a>
           </div>

@@ -3,15 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import './login.css';
 
 function Login() {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Disable scrolling when the component mounts
     document.body.style.overflow = 'hidden';
-
-    // Enable scrolling when the component unmounts
     return () => {
       document.body.style.overflow = '';
     };
@@ -26,17 +24,23 @@ function Login() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, email, password }),
       });
 
       const data = await response.json();
+      console.log("Server response:", data);
 
       if (response.ok) {
-        // Login successful, store token and redirect to the main page
-        localStorage.setItem('token', data.token); // Store token in localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem("username", data.username);
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("loc", data.loc);
+        localStorage.setItem("age", data.age);
+        localStorage.setItem("height", data.height);
+        localStorage.setItem("weight", data.weight);
         navigate('/main');
       } else {
-        alert(data.message || 'Invalid credentials'); // Display error in an alert
+        alert(data.message || 'Invalid credentials'); 
       }
     } catch (error) {
       console.error('Error:', error);
@@ -59,20 +63,26 @@ function Login() {
         <h2>Login</h2>
         <br />
         <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
           type="email"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)} // Enable onChange to track input
+          onChange={(e) => setEmail(e.target.value)} 
         />
         <input
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)} // Enable onChange to track input
+          onChange={(e) => setPassword(e.target.value)} 
         />
-        <br />
+
         <button type="submit" onClick={handleLogin}>Login</button>
-        <br />
+        <br/>
         <a href="/signup">Sign up</a>
       </div>
     </div>

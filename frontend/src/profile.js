@@ -1,22 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import './profile.css'; // Ensure to create this CSS file with your styles
+import './profile.css'; 
 
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    location: 'Bengaluru, India',
-    age: 28,
-    height: 177,
-    weight: 73,
-    profilePicture: `${process.env.PUBLIC_URL}/img1.jpg`,
+    name: '',
+    email: '',
+    loc: '',
+    age: null,
+    height: null,
+    weight: null,
+    img: '',
   });
 
-  // Debugging: Check state change after each render
   useEffect(() => {
-    console.log("isEditing state:", isEditing);
-  }, [isEditing]);
+    setProfile({
+      name: localStorage.getItem('username'),
+      email: localStorage.getItem('email'),
+      loc: localStorage.getItem('loc'),
+      age: localStorage.getItem('age'),
+      height: localStorage.getItem('height'),
+      weight: localStorage.getItem('weight'),
+      img: localStorage.getItem('img'),
+    });
+  }, []);
 
   const toggleEditMode = () => {
     setIsEditing((prev) => !prev);
@@ -30,23 +37,52 @@ const UserProfile = () => {
     }));
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      setProfile((prevProfile) => ({
-        ...prevProfile,
-        profilePicture: e.target.result,
-      }));
-    }
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
+  // const handleFileChange = (event) => {
+  //   const file = event.target.files[0];
+  //   const reader = new FileReader();
+  //   reader.onload = function(e) {
+  //     setProfile((prevProfile) => ({
+  //       ...prevProfile,
+  //       img: e.target.result, // Update img instead of profilePicture
+  //     }));
+  //   }
+  //   if (file) {
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
 
-  const handleSubmit = () => {
-    console.log("Updated Profile:", profile);
-    setIsEditing(false);
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: profile.name,
+          loc: profile.loc,
+          age: profile.age,
+          height: profile.height,
+          weight: profile.weight,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message || 'Profile updated successfully!');
+        setIsEditing(false);
+        localStorage.setItem('loc', profile.loc);
+        localStorage.setItem('age', profile.age);
+        localStorage.setItem('height', profile.height);
+        localStorage.setItem('weight', profile.weight);
+      } else {
+        alert(data.message || 'Failed to update profile. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('An error occurred while updating the profile.');
+    }
   };
 
   const cancelEdit = () => {
@@ -63,11 +99,11 @@ const UserProfile = () => {
       <div id="profile-section">
         <h2 style={{ position: 'relative', left: '60px' }}>Profile</h2>
         <div id="profile-content">
-          <img src={profile.profilePicture} alt="Profile" id="profile-photo" />
+          <img src={`${process.env.PUBLIC_URL}/img2.jpg`} alt="Profile" id="profile-photo" />
           <div id="user-details">
             {isEditing ? (
               <div id="edit-mode">
-                <div className="input-group">
+                {/* <div className="input-group">
                   <label htmlFor="profile-picture">Profile Picture:</label>
                   <input
                     type="file"
@@ -75,7 +111,7 @@ const UserProfile = () => {
                     accept="image/*"
                     onChange={handleFileChange}
                   />
-                </div>
+                </div> */}
                 <div className="input-group">
                   <label htmlFor="name">Name:</label>
                   <input
@@ -86,20 +122,11 @@ const UserProfile = () => {
                   />
                 </div>
                 <div className="input-group">
-                  <label htmlFor="email">Email:</label>
-                  <input
-                    type="email"
-                    id="email"
-                    value={profile.email}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="input-group">
-                  <label htmlFor="location">Location:</label>
+                  <label htmlFor="loc">Location:</label>
                   <input
                     type="text"
-                    id="location"
-                    value={profile.location}
+                    id="loc" // Use loc instead of location
+                    value={profile.loc}
                     onChange={handleInputChange}
                   />
                 </div>
@@ -141,13 +168,11 @@ const UserProfile = () => {
               <div id="view-mode">
                 <h3>{profile.name}</h3>
                 <p><strong>Email:</strong> {profile.email}</p>
-                <p><strong>Location:</strong> {profile.location}</p>
+                <p><strong>Location:</strong> {profile.loc}</p>
                 <p><strong>Age:</strong> {profile.age}</p>
                 <p><strong>Height:</strong> {profile.height} cm</p>
-                <p><strong>Weight:</strong> {profile.weight} Kg</p>
-                <button className="edit-button" type="button" onClick={toggleEditMode}>
-                  Edit Profile
-                </button>
+                <p><strong>Weight:</strong> {profile.weight} kg</p>
+                <button className="edit-button" onClick={toggleEditMode}>Edit Profile</button>
               </div>
             )}
           </div>

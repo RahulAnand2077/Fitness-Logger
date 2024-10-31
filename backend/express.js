@@ -11,6 +11,8 @@ const port = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use('/public', express.static('frontend/public'));
+
 app.post("/signup", userValidation, userExists, async (req, res) => {
   const { username, email, password, loc = null, age = null, height = null, weight = null } = req.body;
   try {
@@ -27,14 +29,15 @@ app.post("/signup", userValidation, userExists, async (req, res) => {
 });
 
 // Basic login route
-app.post("/login", userValidation, userExistsSignIn, async (req, res) => {
-  const { email, password } = req.body;
+app.post("/login", userValidation, async (req, res) => {
+  const { username, email, password } = req.body;
   try {
-    const user = await User.find({ email, password });
+    const user = await User.findOne({ username,email, password });
 
     if (user) {
       return res.status(200).json({
         message: "Welcome",
+        username: user.username,
       });
     } else {
       return res.status(404).json({ message: "User not found" });
@@ -47,10 +50,9 @@ app.post("/login", userValidation, userExistsSignIn, async (req, res) => {
 
 // Basic update route
 app.put("/update", async (req, res) => {
-  const { email, password } = req.body;
+  const { username, loc, age, height, weight,img} = req.body;
   try {
-    // Example update; adjust filter criteria and update options as needed
-    const updatedUser = await User.updateOne({ email }, { password });
+    const updatedUser = await User.updateOne({ username , loc ,age,height,weight,img});
 
     if (updatedUser.modifiedCount > 0) {
       res.status(200).json({
@@ -61,7 +63,7 @@ app.put("/update", async (req, res) => {
       res.status(404).json({ message: "User not found or no changes made" });
     }
   } catch (err) {
-    console.error("Update error:", err); // Log error to the console
+    console.error("Update error:", err); 
     res.status(500).json({ error: "An error occurred during update." });
   }
 });

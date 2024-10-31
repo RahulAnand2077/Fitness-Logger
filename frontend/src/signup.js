@@ -6,10 +6,10 @@ function Signup() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const loc = null;
-  const age = null;
-  const height = null;
-  const weight = null;
+  const loc = null;  // You can collect this from the user in the future
+  const age = null;  // You can collect this from the user in the future
+  const height = null;  // You can collect this from the user in the future
+  const weight = null;  // You can collect this from the user in the future
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,17 +24,24 @@ function Signup() {
 
     try {
       const response = await fetch('http://localhost:5000/signup', {
-        method: 'POST', // Changed to POST for saving data
+        method: 'POST', 
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password ,loc,age,height,weight }), // Include all signup details
+        body: JSON.stringify({ username, email, password, loc, age, height, weight }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Signup successful, notify user and redirect to login page or main page
+        // Save user details to localStorage
+        localStorage.setItem('username', data.username);
+        localStorage.setItem('email', data.email);
+        localStorage.setItem('loc', loc); // If you collect location later
+        localStorage.setItem('age', age); // If you collect age later
+        localStorage.setItem('height', height); // If you collect height later
+        localStorage.setItem('weight', weight); // If you collect weight later
+
         alert('Signup successful!');
         navigate('/main');
       } else {
@@ -65,18 +72,21 @@ function Signup() {
             placeholder="Enter Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            required
           />
           <input
             type="email"
             placeholder="Enter Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
           <input
             type="password"
             placeholder="Enter Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <br/><br/>
           <button type="submit">Sign Up</button>
