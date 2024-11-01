@@ -241,7 +241,7 @@ const Main = () => {
           </div>
   
           <div id="quote3">
-            <h2>Nutirtion</h2>
+            <h2>Nutrition</h2>
             <p>"Excuses don't burn calories."</p>
           </div>
           <div id="nutrition">{/* Placeholder for nutrition details */}</div>
