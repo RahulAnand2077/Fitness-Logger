@@ -404,3 +404,34 @@
     width : 20%;
     margin-left: 185px;
 }
+
+
+
+/* Water Intake */
+#waterTracker {
+    text-align: center;
+    padding: 20px;
+}
+
+.circular-progress {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(#ff3b62 var(--progress), #00224D 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.circular-progress .progress-value {
+    position: absolute;
+    font-size: 1.5em;
+    color: #ffffff;
+}
+
+
+.circular-progress {
+    --progress: 0deg;
+}

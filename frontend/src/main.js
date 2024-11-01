@@ -11,8 +11,10 @@ const Main = () => {
     const [showWorkoutForm, setShowWorkoutForm] = useState(false);
     const [workouts, setWorkouts] = useState([]);
     const [log, setLog] = useState('');
-
     const [username, setUsername] = useState('');
+
+    const today = new Date().toLocaleDateString();
+
     useEffect(() => {
       const storedUsername = localStorage.getItem("username");
       if (storedUsername) {
@@ -23,12 +25,6 @@ const Main = () => {
       }
     }, []);
 
-    useEffect(() => {
-      console.log("Fetched workouts:", workouts);
-  }, [workouts]);
-
-    const today = new Date().toLocaleDateString();
-    
     function handleSignOut() {
       localStorage.removeItem('username');
       localStorage.removeItem('email');
@@ -40,34 +36,61 @@ const Main = () => {
       window.location.href = '/login'; 
     }
 
-    function addWorkout() {
-      setShowWorkoutForm(true);
-    }
-  
-    function submitWorkout() {
+    useEffect(() => {
+      fetchWorkouts();
+    }, []);
+
+    const fetchWorkouts = async () => {
+      try {
+          const email = localStorage.getItem("email");
+          const response = await axios.get(`http://localhost:5010/logs?email=${email}`);
+          setWorkouts(response.data.workouts || []);
+      } catch (error) {
+          console.error("Error fetching workouts:", error);
+      }
+    };
+
+    const submitWorkout = async () => {
       const workoutData = {
           email: localStorage.getItem("email"),
           date: today,
           log: log, 
       };
+
+      try {
+          await axios.post("http://localhost:5010/logs", workoutData);
+          setLog('');
+          setShowWorkoutForm(false);
+          fetchWorkouts(); 
+      } catch (error) {
+          console.error("Error logging workout:", error);
+          alert("Error logging workout");
+      }
+    };
   
-      axios.post("http://localhost:5010/logs", workoutData)
-          .then(response => {
-              alert(response.data.message);
-              setWorkouts([...workouts, workoutData]);
-              setLog('');
-              setShowWorkoutForm(false);
-          })
-          .catch(error => {
-              console.error("Error logging workout:", error?.response?.data || error.message);
-              alert("Error logging workout");
-          });
-  }
-  
-  
+    function addWorkout() {
+      setShowWorkoutForm(true);
+    }
     function cancelWorkout() {
       setShowWorkoutForm(false);
     }
+
+
+    const [waterIntake, setWaterIntake] = useState(0);
+    const dailyGoal = 2000; 
+
+    const addWaterIntake = () => {
+        if (waterIntake < dailyGoal) {
+            const newIntake = waterIntake + 200;
+            setWaterIntake(newIntake > dailyGoal ? dailyGoal : newIntake);
+        }
+    };
+
+    useEffect(() => {
+        const percentage = Math.min((waterIntake / dailyGoal) * 100, 100);
+        document.querySelector(".circular-progress").style.setProperty("--progress", `${(percentage / 100) * 360}deg`);
+        document.querySelector(".progress-value").textContent = `${Math.round(percentage)}%`;
+    }, [waterIntake]);
   
     return (
       <div id="main">
@@ -101,19 +124,19 @@ const Main = () => {
   
           <div id="recent">
             <div id="workoutList">
-              {workouts.length === 0 ? (
-                <p id="recent_workout">No recent workouts logged.</p>
-              ) : (
-                workouts?.map((workout, index) => (
-                  <div key={index}>
-                      <p><strong>{workout.date}</strong></p>
-                      {workout.logs?.map((log, logIndex) => (
-                          <div key={logIndex}>{log}</div>
-                      ))}
-                  </div>
-                ))
-              )}
-            </div>
+            {workouts.length === 0 ? (
+              <p id="recent_workout">No recent workouts logged.</p>
+            ) : (
+              workouts.map((workout, index) => (
+                <div key={index}>
+                    <p><strong>{workout.date}</strong></p>
+                    {workout.logs.map((log, logIndex) => (
+                        <div key={logIndex}>{log}</div>
+                    ))}
+                </div>
+              ))
+            )}
+          </div>
   
             {showWorkoutForm && (
               <div id="workoutForm">
@@ -139,9 +162,14 @@ const Main = () => {
           <div id="quote2">
             <p>"All progress takes place outside the comfort zone."</p>
           </div>
-          <div id="goals">{/* Placeholder for goals details */}</div>
-          <div id="add_goals">
-            <button id="b2">Log Goals</button>
+          <div id="goals">
+            <div id="waterTracker">
+              <h2>Water Intake</h2>
+              <div class="circular-progress">
+                  <span class="progress-value">0%</span>
+              </div>
+              <button onClick={addWaterIntake}>Add 200ml</button>
+            </div>
           </div>
   
           <div id="quote3">

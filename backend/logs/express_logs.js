@@ -41,6 +41,22 @@ app.post("/logs", userExists, async (req, res) => {
     }
 });
 
+app.get("/logs", async (req, res) => {
+    try {
+        const email = req.query.email;
+        const workoutData = await Workout.findOne({ email });
+
+        if (workoutData) {
+            res.status(200).json({ workouts: workoutData.log });
+        } else {
+            res.status(200).json({ workouts: [] });
+        }
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
