@@ -161,7 +161,7 @@
 
     width: 35%; 
     position: absolute;
-    top: 300px;
+    top: 220px;
     left:63vw;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -172,10 +172,10 @@
 #b1 {
     width: 150px;
     position: relative;
-    top: 350px;
+    top: 400px;
     left:1450px;
     font-family: 'Poppins', sans-serif;
-    background-color: #A0153E;
+    background-color: #ff3b62;
     color: white;
     font-size: 16px;
 
@@ -186,6 +186,9 @@
     animation: fadeDown 2s forwards;
 
     text-align: center; 
+}
+#b1:hover {
+    background-color: #ff2a4e;
 }
 
 #goals {
@@ -216,25 +219,6 @@
     margin-left: 0; 
 }
 
-#b2 {
-    width: 150px;
-    position: relative;
-    top: 900px;
-    left: 260px;
-    font-family: 'Poppins', sans-serif;
-    background-color: #A0153E;
-    color: white;
-    font-size: 16px;
-
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    animation: fadeDown 2s forwards;
-
-    text-align: center; 
-}
-
 #quote2{
     background: linear-gradient(45deg, #FF204E, rgb(255, 184, 184));
     -webkit-background-clip: text;
@@ -245,7 +229,7 @@
 
     width: 35%; 
     position: absolute;
-    top: 850px;
+    top: 780px;
     left: 30px;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -285,10 +269,10 @@
 #b3 {
     width: 150px;
     position: relative;
-    top: 1400px;
+    top: 1450px;
     left: 1450px;
     font-family: 'Poppins', sans-serif;
-    background-color: #A0153E;
+    background-color: #ff3b62;
     color: white;
     font-size: 16px;
 
@@ -299,6 +283,9 @@
     animation: fadeDown 2s forwards;
 
     text-align: center; 
+}
+#b3:hover {
+    background-color: #ff2a4e;
 }
 
 #quote3{
@@ -311,7 +298,7 @@
 
     width: 35%; 
     position: absolute;
-    top: 1400px;
+    top: 1330px;
     left:63vw;
     transform: translate(-50%, -50%);
     z-index: 1;
@@ -410,10 +397,19 @@
 /* Water Intake */
 #waterTracker {
     text-align: center;
-    padding: 20px;
+    padding-left: 20px;
+    margin-left: 150px;
 }
 
-.circular-progress {
+#sleepTracker {
+    position: relative;
+    text-align: center;
+    padding-left: 20px;
+    bottom: 379px;
+    margin-left: 550px;
+}
+
+.circular-progress1 {
     position: relative;
     width: 120px;
     height: 120px;
@@ -423,15 +419,96 @@
     align-items: center;
     justify-content: center;
     margin: 20px auto;
+    z-index: 0;
 }
 
-.circular-progress .progress-value {
+.progress-value1 {
     position: absolute;
-    font-size: 1.5em;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset by half its width and height */
+    font-size: 1.15em;
     color: #ffffff;
+    --progress: 0deg;
+    z-index: 2; /* Ensure it appears above the blank circle */
 }
 
+#blank_circle1 {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    z-index: 1;
+    margin: 20px auto;
+    background-color: #00224D;
+}
 
-.circular-progress {
+.circular-progress2 {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(#ff3b62 var(--progress), #00224D 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    z-index: 0;
+}
+
+.progress-value2 {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset by half its width and height */
+    font-size: 1.15em;
+    color: #ffffff;
     --progress: 0deg;
+    z-index: 2; /* Ensure it appears above the blank circle */
+}
+
+#blank_circle2 {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    z-index: 1;
+    margin: 20px auto;
+    background-color: #00224D;
+}
+
+#goal_b1 {
+    font-family:'Poppins', sans-serif;  
+    margin-top: 10px;
+    width: 85%;
+    padding: 10px;
+    background-color: #ff3b62;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#goal_b1:hover {
+    background-color: #ff2a4e;
+}
+
+#goal_b2 {
+    font-family:'Poppins', sans-serif;  
+    margin-top: 10px;
+    width: 200.58px;
+    padding: 10px;
+    background-color: #ff3b62;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#goal_b2:hover {
+    background-color: #ff2a4e;
 }

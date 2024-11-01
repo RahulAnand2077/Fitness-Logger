@@ -76,21 +76,75 @@ const Main = () => {
     }
 
 
+    const fetchGoals = async () => {
+      const email = localStorage.getItem("email");
+  
+      try {
+          const response = await axios.get(`http://localhost:5015/goals?email=${email}`);
+          const todayGoals = response.data.goals.find(goal => goal.date === today);
+  
+          if (todayGoals) {
+              setWaterIntake(todayGoals.goals[0].water || 0);
+              setSleep(todayGoals.goals[0].sleep || 0);
+          }
+      } catch (error) {
+          console.error("Error fetching goals:", error);
+      }
+    };
+    
+    useEffect(() => {
+        fetchGoals();
+    }, []);
+    
+    const saveGoals = async () => {
+      const email = localStorage.getItem("email");
+  
+      try {
+          await axios.post("http://localhost:5015/goals", {
+              email,
+              date: today,
+              water: waterIntake,
+              sleep: sleepIntake,
+          });
+      } catch (error) {
+          console.error("Error saving goals:", error);
+          alert("Error saving goals");
+      }
+    };
+
     const [waterIntake, setWaterIntake] = useState(0);
-    const dailyGoal = 2000; 
+    const dailyGoal_w = 2000; 
 
     const addWaterIntake = () => {
-        if (waterIntake < dailyGoal) {
-            const newIntake = waterIntake + 200;
-            setWaterIntake(newIntake > dailyGoal ? dailyGoal : newIntake);
+        if (waterIntake < dailyGoal_w) {
+            const newIntake_w = waterIntake + 200;
+            setWaterIntake(newIntake_w > dailyGoal_w ? dailyGoal_w : newIntake_w);
+            saveGoals();
         }
     };
 
     useEffect(() => {
-        const percentage = Math.min((waterIntake / dailyGoal) * 100, 100);
-        document.querySelector(".circular-progress").style.setProperty("--progress", `${(percentage / 100) * 360}deg`);
-        document.querySelector(".progress-value").textContent = `${Math.round(percentage)}%`;
+        const percentage = Math.min((waterIntake / dailyGoal_w) * 100, 100);
+        document.querySelector(".circular-progress1").style.setProperty("--progress", `${(percentage / 100) * 360}deg`);
+        document.querySelector(".progress-value1").textContent = `${Math.round(percentage)}%`;
     }, [waterIntake]);
+
+    const [sleepIntake, setSleep] = useState(0);
+    const dailyGoal_s = 8; 
+
+    const addSleep = () => {
+        if (sleepIntake < dailyGoal_s) {
+            const newIntake_s = sleepIntake + 1;
+            setSleep(newIntake_s > dailyGoal_s ? dailyGoal_s : newIntake_s);
+            saveGoals();
+        }
+    };
+
+    useEffect(() => {
+        const percentage = Math.min((sleepIntake / dailyGoal_s) * 100, 100);
+        document.querySelector(".circular-progress2").style.setProperty("--progress", `${(percentage / 100) * 360}deg`);
+        document.querySelector(".progress-value2").textContent = `${Math.round(percentage)}%`;
+    }, [sleepIntake]);
   
     return (
       <div id="main">
@@ -119,6 +173,7 @@ const Main = () => {
         
         <div class="section-container">
           <span id="quote1">
+            <h2>Workout</h2>
             <p>"Nothing will work unless you do."</p>
           </span>
   
@@ -160,19 +215,33 @@ const Main = () => {
           </div>
   
           <div id="quote2">
+            <h2>Goals</h2>
             <p>"All progress takes place outside the comfort zone."</p>
           </div>
           <div id="goals">
             <div id="waterTracker">
               <h2>Water Intake</h2>
-              <div class="circular-progress">
-                  <span class="progress-value">0%</span>
+              <h4>2000ml</h4>
+              <div class="circular-progress1">
+                  <span class="progress-value1">0%</span>
+                  <div id="blank_circle1"></div>
               </div>
-              <button onClick={addWaterIntake}>Add 200ml</button>
+              <button id="goal_b1" onClick={addWaterIntake}>Add 200ml</button>
+            </div>
+
+            <div id="sleepTracker">
+              <h2>Sleep</h2>
+              <h4>8 Hrs</h4>
+              <div class="circular-progress2">
+                  <span class="progress-value2">0%</span>
+                  <div id="blank_circle2"></div>
+              </div>
+              <button id="goal_b2" onClick={addSleep}>Add 1 Hr</button>
             </div>
           </div>
   
           <div id="quote3">
+            <h2>Nutirtion</h2>
             <p>"Excuses don't burn calories."</p>
           </div>
           <div id="nutrition">{/* Placeholder for nutrition details */}</div>
