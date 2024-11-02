@@ -6,10 +6,10 @@ function Signup() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const loc = null;  // You can collect this from the user in the future
-  const age = null;  // You can collect this from the user in the future
-  const height = null;  // You can collect this from the user in the future
-  const weight = null;  // You can collect this from the user in the future
+  const loc = null;  
+  const age = null;  
+  const height = null;  
+  const weight = null;  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,13 +34,12 @@ function Signup() {
       const data = await response.json();
 
       if (response.ok) {
-        // Save user details to localStorage
         localStorage.setItem('username', data.username);
         localStorage.setItem('email', data.email);
-        localStorage.setItem('loc', loc); // If you collect location later
-        localStorage.setItem('age', age); // If you collect age later
-        localStorage.setItem('height', height); // If you collect height later
-        localStorage.setItem('weight', weight); // If you collect weight later
+        localStorage.setItem('loc', loc); 
+        localStorage.setItem('age', age); 
+        localStorage.setItem('height', height);
+        localStorage.setItem('weight', weight);
 
         alert('Signup successful!');
         navigate('/main');

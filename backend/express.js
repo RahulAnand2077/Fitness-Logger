@@ -1,16 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
 const { User } = require("./db");
-const { userValidation, userExists, userExistsSignIn } = require("./auth");
-
+const { userValidation, userExists } = require("./auth");
 const app = express();
 const port = 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
-
 app.use('/public', express.static('frontend/public'));
 
 app.post("/signup", userValidation, userExists, async (req, res) => {
@@ -32,7 +29,6 @@ app.post("/login", userValidation, async (req, res) => {
   const { username, email, password } = req.body;
   try {
     const user = await User.findOne({ username,email, password });
-
     if (user) {
       return res.status(200).json({
         message: "Welcome",
@@ -56,7 +52,6 @@ app.put("/update", async (req, res) => {
   const { username, loc, age, height, weight} = req.body;
   try {
     const updatedUser = await User.updateOne({ username},{ loc, age, height, weight});
-
     if (updatedUser.modifiedCount > 0) {
       res.status(200).json({
         message: "User updated successfully",
@@ -70,7 +65,6 @@ app.put("/update", async (req, res) => {
   }
 });
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

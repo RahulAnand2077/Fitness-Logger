@@ -512,3 +512,31 @@
 #goal_b2:hover {
     background-color: #ff2a4e;
 }
+
+
+
+/*  nutrition */
+#nutritionForm{
+    background-color: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(10px); 
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    border-radius: 10px;
+    padding: 40px;
+    width: 947px;
+    text-align: left; 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    top: 213px;
+    left: 0px;
+    animation: fadeDown 2s forwards;
+}
+#nut_sub_b{
+    width : 20%;
+    margin : 20px 20px 0px 0px;
+}
+#nut_sub_b1{
+    width : 20%;
+}
+

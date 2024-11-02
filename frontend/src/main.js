@@ -7,13 +7,25 @@ import './about_us';
 import axios from 'axios';
 
 
+
 const Main = () => {
+    const [username, setUsername] = useState('');
+    
     const [showWorkoutForm, setShowWorkoutForm] = useState(false);
     const [workouts, setWorkouts] = useState([]);
     const [log, setLog] = useState('');
-    const [username, setUsername] = useState('');
+
+    const [sleepIntake, setSleep] = useState(0);
+    const [waterIntake, setWaterIntake] = useState(0);
+
+    const [showCalForm, setShowCalForm] = useState(false);
+    const [foodItems, setFoodItems] = useState([]);
+    const [foodInput, setFoodInput] = useState('');
+    const [currentFood, setCurrentFood] = useState(null);
 
     const today = new Date().toLocaleDateString();
+    const dailyGoal_w = 2000; 
+    const dailyGoal_s = 8; 
 
     useEffect(() => {
       const storedUsername = localStorage.getItem("username");
@@ -36,6 +48,9 @@ const Main = () => {
       window.location.href = '/login'; 
     }
 
+
+
+    // Workout 
     useEffect(() => {
       fetchWorkouts();
     }, []);
@@ -43,20 +58,18 @@ const Main = () => {
     const fetchWorkouts = async () => {
       try {
           const email = localStorage.getItem("email");
-          const response = await axios.get(`http://localhost:5010/logs?email=${email}`);
+          const response = await axios.get(`http://localhost:5010/logs?email=${email}&date=${today}`);
           setWorkouts(response.data.workouts || []);
       } catch (error) {
           console.error("Error fetching workouts:", error);
       }
     };
-
     const submitWorkout = async () => {
       const workoutData = {
           email: localStorage.getItem("email"),
           date: today,
           log: log, 
       };
-
       try {
           await axios.post("http://localhost:5010/logs", workoutData);
           setLog('');
@@ -67,7 +80,6 @@ const Main = () => {
           alert("Error logging workout");
       }
     };
-  
     function addWorkout() {
       setShowWorkoutForm(true);
     }
@@ -76,9 +88,10 @@ const Main = () => {
     }
 
 
+
+    // Goals
     const fetchGoals = async () => {
       const email = localStorage.getItem("email");
-  
       try {
           const response = await axios.get(`http://localhost:5015/goals?email=${email}`);
           const todayGoals = response.data.goals.find(goal => goal.date === today);
@@ -91,14 +104,11 @@ const Main = () => {
           console.error("Error fetching goals:", error);
       }
     };
-    
     useEffect(() => {
         fetchGoals();
     }, []);
-    
     const saveGoals = async () => {
       const email = localStorage.getItem("email");
-  
       try {
           await axios.post("http://localhost:5015/goals", {
               email,
@@ -111,10 +121,6 @@ const Main = () => {
           alert("Error saving goals");
       }
     };
-
-    const [waterIntake, setWaterIntake] = useState(0);
-    const dailyGoal_w = 2000; 
-
     const addWaterIntake = () => {
         if (waterIntake < dailyGoal_w) {
             const newIntake_w = waterIntake + 200;
@@ -122,16 +128,11 @@ const Main = () => {
             saveGoals();
         }
     };
-
     useEffect(() => {
-        const percentage = Math.min((waterIntake / dailyGoal_w) * 100, 100);
-        document.querySelector(".circular-progress1").style.setProperty("--progress", `${(percentage / 100) * 360}deg`);
-        document.querySelector(".progress-value1").textContent = `${Math.round(percentage)}%`;
+        const percentage1 = Math.min((waterIntake / dailyGoal_w) * 100, 100);
+        document.querySelector(".circular-progress1").style.setProperty("--progress", `${(percentage1 / 100) * 360}deg`);
+        document.querySelector(".progress-value1").textContent = `${Math.round(percentage1)}%`;
     }, [waterIntake]);
-
-    const [sleepIntake, setSleep] = useState(0);
-    const dailyGoal_s = 8; 
-
     const addSleep = () => {
         if (sleepIntake < dailyGoal_s) {
             const newIntake_s = sleepIntake + 1;
@@ -139,13 +140,136 @@ const Main = () => {
             saveGoals();
         }
     };
-
     useEffect(() => {
         const percentage = Math.min((sleepIntake / dailyGoal_s) * 100, 100);
         document.querySelector(".circular-progress2").style.setProperty("--progress", `${(percentage / 100) * 360}deg`);
         document.querySelector(".progress-value2").textContent = `${Math.round(percentage)}%`;
     }, [sleepIntake]);
-  
+
+
+
+    //  Nutrition
+    useEffect(() => {
+      fetchFoodItems();
+    }, []);
+    const fetchFoodItems = async () => {
+      try {
+        const email = localStorage.getItem("email");
+        const response = await axios.get(`http://localhost:5020/items?email=${email}`);
+        setFoodItems(response.data.items || []);
+      } catch (error) {
+        console.error("Error fetching food items:", error);
+      }
+    };
+
+    const fetchNutritionData = async () => {
+      try {
+        let response = await axios.get(
+          `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(foodInput)}&search_simple=1&json=1`
+        );
+        
+        if (response.data.products && response.data.products.length > 0) {
+          const product = response.data.products[0];
+          const nutriments = product.nutriments;
+          
+          const calories = 
+            nutriments.energy_kcal_100g || 
+            (nutriments.energy_100g ? nutriments.energy_100g / 4.184 : 0) || 
+            0;
+    
+          setCurrentFood({
+            name: product.product_name || foodInput,
+            cal: Math.round(calories), 
+            protein: Math.round((nutriments.proteins_100g || 0) * 10) / 10,
+            carbs: Math.round((nutriments.carbohydrates_100g || 0) * 10) / 10,
+            fat: Math.round((nutriments.fat_100g || 0) * 10) / 10,
+          });
+    
+          console.log("OpenFoodFacts data:", {
+            name: product.product_name || foodInput,
+            cal: Math.round(calories),
+            protein: nutriments.proteins_100g,
+            carbs: nutriments.carbohydrates_100g,
+            fat: nutriments.fat_100g
+          });
+    
+        } else {
+          const edamamResponse = await axios.get(
+            'https://api.edamam.com/api/nutrition-data',
+            {
+              params: {
+                app_id: "c8f76a8f",
+                app_key: "44da0a94e538bffd3a898c6829fc4eb9",
+                ingr: foodInput,
+                nutrition_type: "logging" 
+              },
+            }
+          );
+    
+          const nutrients = edamamResponse.data;
+          
+          setCurrentFood({
+            name: foodInput,
+            cal: Math.round(nutrients.calories || 0),
+            protein: Math.round((nutrients.totalNutrients?.PROCNT?.quantity || 0) * 10) / 10,
+            carbs: Math.round((nutrients.totalNutrients?.CHOCDF?.quantity || 0) * 10) / 10,
+            fat: Math.round((nutrients.totalNutrients?.FAT?.quantity || 0) * 10) / 10,
+          });
+    
+          console.log("Edamam data:", {
+            calories: nutrients.calories,
+            protein: nutrients.totalNutrients?.PROCNT?.quantity,
+            carbs: nutrients.totalNutrients?.CHOCDF?.quantity,
+            fat: nutrients.totalNutrients?.FAT?.quantity
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching nutrition data:", error);
+        alert("Error fetching nutrition data. Please try again.");
+      }
+    };
+    
+    const NutritionPreview = ({ food }) => {
+      if (!food) return null;
+      
+      return (
+        <div className="nutrition-preview">
+          <h3>Nutrition Information for: {food.name}</h3>
+          <div className="nutrition-details">
+            <p><strong>Calories:</strong> {food.cal} kcal</p>
+            <p><strong>Protein:</strong> {food.protein}g</p>
+            <p><strong>Carbohydrates:</strong> {food.carbs}g</p>
+            <p><strong>Fat:</strong> {food.fat}g</p>
+          </div>
+        </div>
+      );
+    };
+
+  const submitCal = async () => {
+    if (!currentFood) {
+      alert("Please search for a food item first");
+      return;
+    }
+
+    const nutritionData = {
+      email: localStorage.getItem("email"),
+      date: today,
+      ...currentFood
+    };
+
+    try {
+      await axios.post("http://localhost:5020/items", nutritionData);
+      setFoodInput('');
+      setCurrentFood(null);
+      setShowCalForm(false);
+      fetchFoodItems();
+    } catch (error) {
+      console.error("Error logging nutrition:", error);
+      alert("Error logging nutrition");
+    }
+  };
+
+
     return (
       <div id="main">
         <div id="topbar_main">
@@ -191,7 +315,7 @@ const Main = () => {
                 </div>
               ))
             )}
-          </div>
+            </div>
   
             {showWorkoutForm && (
               <div id="workoutForm">
@@ -244,9 +368,69 @@ const Main = () => {
             <h2>Nutrition</h2>
             <p>"Excuses don't burn calories."</p>
           </div>
-          <div id="nutrition">{/* Placeholder for nutrition details */}</div>
           <div id="add_food">
-            <button id="b3">Log Calories</button>
+            <button id="b3" onClick={() => setShowCalForm(true)}>Log Calories</button>
+          </div>
+          <div id="nutrition">
+            <div id="nutritionList">
+              {foodItems.length === 0 ? (
+                <p id="recent_food">No recent food items logged.</p>
+              ) : (
+                foodItems.map((dayEntry, index) => (
+                  <div key={index}>
+                    <p><strong>{dayEntry.date}</strong></p>
+                    {dayEntry.items.map((item, itemIndex) => (
+                      <div key={itemIndex}>
+                        {item.name} - {item.cal}cal (P: {item.protein}g, C: {item.carbs}g, F: {item.fat}g)
+                      </div>
+                    ))}
+                  </div>
+                ))
+              )}
+            </div>
+
+            {showCalForm && (
+              <div id="nutritionForm">
+                <div className="search-section">
+                  <input
+                    type="text"
+                    placeholder="Enter food item (e.g., '100g apple' or '1 slice bread')"
+                    value={foodInput}
+                    onChange={(e) => setFoodInput(e.target.value)}
+                    style={{ width: '98%' }}
+                  />
+                  <button 
+                    id="nut_sub_b1" 
+                    onClick={fetchNutritionData}
+                    className="search-button"
+                  >
+                    Search
+                  </button>
+                </div>
+                
+                {currentFood && <NutritionPreview food={currentFood} />}
+                
+                <div className="form-buttons">
+                  <button 
+                    id="nut_sub_b" 
+                    onClick={submitCal}
+                    disabled={!currentFood}
+                  >
+                    Submit
+                  </button>
+                  <button 
+                    id="nut_sub_b" 
+                    onClick={() => {
+                      setShowCalForm(false);
+                      setCurrentFood(null);
+                      setFoodInput('');
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
   
