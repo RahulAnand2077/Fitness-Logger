@@ -302,28 +302,29 @@ const Main = () => {
           </span>
   
           <div id="recent">
-            <div id="workoutList">
-            {workouts.length === 0 ? (
-              <p id="recent_workout">No recent workouts logged.</p>
-            ) : (
-              workouts.map((workout, index) => (
-                <div key={index}>
-                    <p><strong>{workout.date}</strong></p>
-                    {workout.logs.map((log, logIndex) => (
-                        <div key={logIndex}>{log}</div>
-                    ))}
-                </div>
-              ))
-            )}
-            </div>
-  
+          <div id="workoutList">
+              {workouts.length === 0 ? (
+                  <p id="recent_workout">No recent workouts logged.</p>
+              ) : (
+                  [...workouts].reverse().map((workout, index) => (
+                      <div key={index}>
+                          <br />
+                          <p><strong>{workout.date}</strong></p>
+                          {workout.logs.map((log, logIndex) => (
+                              <div key={logIndex}>{log}</div>
+                          ))}
+                      </div>
+                  ))
+              )}
+          </div>
+
             {showWorkoutForm && (
               <div id="workoutForm">
                 <textarea
-                  placeholder='Log Workout'
+                  placeholder="Log Workout"
                   value={log}
                   onChange={(e) => setLog(e.target.value)}
-                  rows="12"
+                  rows="22"
                   style={{ width: '100%' }}
                 ></textarea>
                 <button id="workout_sub_b" onClick={submitWorkout}>Submit</button>
@@ -373,22 +374,23 @@ const Main = () => {
           </div>
           <div id="nutrition">
             <div id="nutritionList">
-              {foodItems.length === 0 ? (
-                <p id="recent_food">No recent food items logged.</p>
-              ) : (
-                foodItems.map((dayEntry, index) => (
-                  <div key={index}>
-                    <p><strong>{dayEntry.date}</strong></p>
-                    {dayEntry.items.map((item, itemIndex) => (
-                      <div key={itemIndex}>
-                        {item.name} - {item.cal}cal (P: {item.protein}g, C: {item.carbs}g, F: {item.fat}g)
-                      </div>
-                    ))}
-                  </div>
-                ))
-              )}
+                {foodItems.length === 0 ? (
+                    <p id="recent_food">No recent food items logged.</p>
+                ) : (
+                    // Reverse the foodItems array to show the latest food items first
+                    [...foodItems].reverse().map((dayEntry, index) => (
+                        <div key={index}>
+                            <br />
+                            <p><strong>{dayEntry.date}</strong></p>
+                            {dayEntry.items.map((item, itemIndex) => (
+                                <div key={itemIndex}>
+                                    {item.name} - {item.cal}cal (P: {item.protein}g, C: {item.carbs}g, F: {item.fat}g)
+                                </div>
+                            ))}
+                        </div>
+                    ))
+                )}
             </div>
-
             {showCalForm && (
               <div id="nutritionForm">
                 <div className="search-section">

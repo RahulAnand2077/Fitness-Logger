@@ -371,24 +371,46 @@
 
 
 /* Add Workout JS CSS */
-#workoutForm{
-    background-color: rgba(255, 255, 255, 0.1); 
-    backdrop-filter: blur(10px); 
+#workoutList {
+    height: 900px;
+    width: 930px;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: transparent; 
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+#workoutList::-webkit-scrollbar {
+    width: 8px;
+}
+
+#workoutList::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+}
+
+#workoutForm {
+    background-color: #203c5c; 
     color: white;
     font-family: 'Poppins', sans-serif;
     font-size: 24px;
     border-radius: 10px;
     padding: 40px;
     width: 947px;
-    text-align: left; 
+    text-align: left;
     border: 1px solid rgba(255, 255, 255, 0.2);
     position: absolute;
-    top: 150px;
+    bottom: 0px;
     left: 0px;
+    height: 400px;
+    z-index: 2;
     animation: fadeDown 2s forwards;
 }
-#workout_sub_b{
-    width : 20%;
+
+#workout_sub_b {
+    width: 20%;
     margin-left: 185px;
 }
 
@@ -458,13 +480,13 @@
 
 .progress-value2 {
     position: absolute;
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Offset by half its width and height */
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
     font-size: 1.15em;
     color: #ffffff;
     --progress: 0deg;
-    z-index: 2; /* Ensure it appears above the blank circle */
+    z-index: 2; 
 }
 
 #blank_circle2 {
@@ -517,7 +539,7 @@
 
 /*  nutrition */
 #nutritionForm{
-    background-color: rgba(255, 255, 255, 0.1); 
+    background-color: #203c5c;
     backdrop-filter: blur(10px); 
     color: white;
     font-family: 'Poppins', sans-serif;
@@ -525,11 +547,13 @@
     border-radius: 10px;
     padding: 40px;
     width: 947px;
-    text-align: left; 
+    text-align: left;
     border: 1px solid rgba(255, 255, 255, 0.2);
     position: absolute;
-    top: 213px;
+    bottom: 0px;
     left: 0px;
+    height: 400px;
+    z-index: 2;
     animation: fadeDown 2s forwards;
 }
 #nut_sub_b{
@@ -540,3 +564,24 @@
     width : 20%;
 }
 
+#nutritionList {
+    max-height: 600px;
+    width: 930px;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: transparent;
+    color: white; 
+}
+
+#nutritionList::-webkit-scrollbar {
+    width: 8px;
+}
+
+#nutritionList::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3); 
+    border-radius: 10px;
+}
+
+.nutrition-preview{
+    font-size: 17px;
+}

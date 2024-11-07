@@ -40,15 +40,8 @@ app.get("/logs", async (req, res) => {
     try {
         const { email, date } = req.query;
         const workoutData = await Workout.findOne({ email });
-
         if (workoutData) {
-            const todayWorkouts = workoutData.log.filter(workout => workout.date === date);
-            if (todayWorkouts.length > 0) {
-                res.status(200).json({ workouts: todayWorkouts });
-            } else {
-                const lastWorkout = workoutData.log[workoutData.log.length - 1];
-                res.status(200).json({ workouts: lastWorkout ? [lastWorkout] : [] });
-            }
+            res.status(200).json({ workouts: workoutData.log });
         } else {
             res.status(200).json({ workouts: [] });
         }
