@@ -57,7 +57,6 @@ const UserProfile = () => {
         localStorage.removeItem('age');
         localStorage.removeItem('height');
         localStorage.removeItem('weight');
-        setUsername('');
         window.location.href = '/login'; 
       } else {
         const data = await response.json();

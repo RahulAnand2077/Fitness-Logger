@@ -14,7 +14,7 @@ const HowItWorks = () => {
         <div className="how-it-works-container">
             <h1>How It Works</h1>
             <p>
-                Welcome to the Logger App! Follow these simple steps to get started with tracking your nutrition, goals, and workouts.
+                Welcome to the FitLog Website! Follow these simple steps to get started with tracking your nutrition, goals, and workouts.
             </p>
             
             <div className="steps">
