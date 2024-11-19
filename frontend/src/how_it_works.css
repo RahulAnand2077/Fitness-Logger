@@ -1,0 +1,19 @@
+.how-it-works-container {
+    background-color: rgba(255, 255, 255, 0.1); 
+    backdrop-filter: blur(10px); 
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px; 
+    border-radius: 10px;
+    padding: 40px;
+    margin: 20px auto; 
+    max-width: 800px; 
+    text-align: left; 
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: fadeDown 2s forwards;
+    color: white;
+  }
+  
+  .steps {
+    font-size: 16px;
+    margin-bottom: 20px; 
+}
