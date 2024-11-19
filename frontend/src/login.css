@@ -46,6 +46,8 @@
     animation: fadeDown 2s forwards;
 }
 
+
+
 @keyframes fadeDown {
     0% {
         opacity: 0;
@@ -116,4 +118,22 @@ button {
 
 button:hover {
     background-color: #ff2a4e;
+}
+
+
+
+#faq{
+    position: relative;
+    top:600px;
+    color: white; 
+    font-size: 40px;;
+}
+
+#faq a {
+    color: white; 
+    text-decoration: none; 
+}
+
+#faq a:hover {
+    text-decoration: underline; 
 }

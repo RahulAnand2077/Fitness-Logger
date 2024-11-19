@@ -47,6 +47,36 @@
     text-decoration: underline; 
 }
 
+#contact_us_main{
+    position: relative;
+    left: 1020px; 
+    color: white; 
+}
+
+#contact_us_main a {
+    color: white; 
+    text-decoration: none; 
+}
+
+#contact_us_main a:hover {
+    text-decoration: underline; 
+}
+
+#how_it_works_main{
+    position: relative;
+    left: 550px; 
+    color: white; 
+}
+
+#how_it_works_main a {
+    color: white; 
+    text-decoration: none; 
+}
+
+#how_it_works_main a:hover {
+    text-decoration: underline; 
+}
+
 @keyframes fadeDown {
     0% {
         opacity: 0;

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import './login';
 import './about_us';
+import './how_it_works'
 import axios from 'axios';
 
 
@@ -276,6 +277,12 @@ const Main = () => {
           <h1 id="title_company_main">Fitness Logger</h1>
           <h1 id="about_us_main">
             <a href="/about_us">About us</a>
+          </h1>
+          <h1 id="contact_us_main">
+                <a href="/contact_us">Contact Us</a>
+            </h1>
+          <h1 id="how_it_works_main">
+            <a href="/how_it_works">How It Works</a>
           </h1>
         </div>
   

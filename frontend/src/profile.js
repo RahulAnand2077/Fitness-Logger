@@ -34,6 +34,43 @@ const UserProfile = () => {
     setIsEditing((prev) => !prev);
   };
 
+  const deleteAccount = async () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this account?");
+    if (!confirmDelete) return;
+  
+    try {
+      const response = await fetch("http://localhost:5000/delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: profile.email,
+        }),
+      });
+  
+      if (response.ok) {
+        alert("Account deleted successfully.");
+        localStorage.removeItem('username');
+        localStorage.removeItem('email');
+        localStorage.removeItem('loc');
+        localStorage.removeItem('age');
+        localStorage.removeItem('height');
+        localStorage.removeItem('weight');
+        setUsername('');
+        window.location.href = '/login'; 
+      } else {
+        const data = await response.json();
+        alert(data.message || "Failed to delete account.");
+      }
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      alert("An error occurred while trying to delete the account.");
+    }
+  };
+  
+  
+
   const handleInputChange = (event) => {
     const { id, value } = event.target;
     setProfile((prevProfile) => ({
@@ -178,6 +215,7 @@ const UserProfile = () => {
                 <p><strong>Height:</strong> {profile.height} cm</p>
                 <p><strong>Weight:</strong> {profile.weight} kg</p>
                 <button className="edit-button" onClick={toggleEditMode}>Edit Profile</button>
+                <button className="edit-button" onClick={deleteAccount}>Delete Account</button>
               </div>
             )}
           </div>

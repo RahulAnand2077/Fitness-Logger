@@ -61,6 +61,9 @@ function Signup() {
 
       <div id="text-overlay">
         <h1>Fitness Logger</h1>
+        <h1 id="faq">
+          <a href="/faq">FAQs</a>
+        </h1>
       </div>
 
       <div id="login">

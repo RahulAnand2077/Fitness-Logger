@@ -2,6 +2,9 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const { User } = require("./db");
+const { Goals } = require("./goals/db_goals");
+const { Workout } = require("./logs/db_logs");
+const { Nutrition } = require("./nutrition/db_nut");
 const { userValidation, userExists } = require("./auth");
 const app = express();
 const port = 5000;
@@ -64,6 +67,41 @@ app.put("/update", async (req, res) => {
     res.status(500).json({ error: "An error occurred during update." });
   }
 });
+
+
+app.delete("/delete", async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ error: "Email is required to delete user data" });
+  }
+
+  try {
+    const deletedUser = await User.deleteOne({ email });
+
+    if (deletedUser.deletedCount === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const deletedWorkout = await Workout.deleteMany({ email });
+    const deletedGoals = await Goals.deleteMany({ email });
+    const deletedNutrition = await Nutrition.deleteMany({ email });
+
+    res.status(200).json({
+      message: "User and all related data deleted successfully",
+      details: {
+        userDeleted: deletedUser.deletedCount,
+        workoutDeleted: deletedWorkout.deletedCount,
+        goalDeleted: deletedGoals.deletedCount,
+        nutritionDeleted: deletedNutrition.deletedCount,
+      },
+    });
+  } catch (err) {
+    console.error("Delete error:", err);
+    res.status(500).json({ error: "An error occurred during deletion." });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
